@@ -4,8 +4,11 @@ import 'express-async-errors';
 import AppError from './errors/AppError';
 
 import express, { Request, Response, NextFunction } from 'express';
+import { connectToDatabase } from './database/connectionDB';
 
 const app = express();
+
+connectToDatabase();
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
