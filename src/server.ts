@@ -6,7 +6,13 @@ import AppError from './errors/AppError';
 import express, { Request, Response, NextFunction } from 'express';
 import { connectToDatabase } from './database/connectionDB';
 
+import { storesRouter } from './routes/stores.routes';
+
 const app = express();
+
+app.use(express.json());
+
+app.use(storesRouter);
 
 connectToDatabase();
 
