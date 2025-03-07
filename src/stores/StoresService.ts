@@ -35,7 +35,7 @@ export class StoresService {
 
     if (nearbyStores.length === 0) {
       throw new AppError(
-        `Não há lojas próximas no raio de ${radiusInKM} Km`,
+        `Nenhuma loja encontrada no raio de ${radiusInKM} Km.`,
         404
       );
     }
