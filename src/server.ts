@@ -1,7 +1,9 @@
 import 'dotenv/config';
 import 'express-async-errors';
 
-import AppError from './errors/AppError';
+import { logger } from './utils/logger';
+
+import AppError from './utils/errors/AppError';
 
 import express, { Request, Response, NextFunction } from 'express';
 import { connectToDatabase } from './database/connectionDB';
@@ -17,6 +19,8 @@ app.use(storesRouter);
 connectToDatabase();
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  logger.error(err);
+
   if (err instanceof AppError) {
     return void res.status(err.statusCode).json({
       status: 'error',
@@ -31,4 +35,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 const port = process.env.PORT || 3333;
-app.listen(port, () => console.log(`Server is running on port ${port}.`));
+app.listen(port, () => logger.info(`Server is running on port ${port}.`));

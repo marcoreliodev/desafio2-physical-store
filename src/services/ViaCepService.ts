@@ -1,3 +1,5 @@
+import AppError from '../utils/errors/AppError';
+
 export type ViaCepData = {
   cep: string;
   logradouro: string;
@@ -17,27 +19,20 @@ export type ViaCepData = {
 
 export class ViaCepService {
   static async getLocationByCep(cep: string): Promise<ViaCepData> {
-    try {
-      const response = await fetch(
-        `${process.env.VIACEP_API_URL}/${cep}/json/`
+    const response = await fetch(`${process.env.VIACEP_API_URL}/${cep}/json/`);
+
+    if (!response.ok) {
+      throw new Error(
+        `Erro ao comunicar com o serviço de CEP: ${response.status} - ${response.statusText}`
       );
-
-      if (!response.ok) {
-        console.error(`Erro na requisição: ${response.status}`);
-        throw new Error(`Erro na requisição: ${response.status}`);
-      }
-
-      const data: ViaCepData = await response.json() as ViaCepData;
-
-      if (data.erro) {
-        console.error('CEP inválido');
-        throw new Error('CEP inválido');
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Erro ao verificar CEP:', error);
-      throw new Error('Erro ao verificar CEP:', error!);
     }
+
+    const data: ViaCepData = await response.json() as ViaCepData;
+
+    if (data.erro) {
+      throw new AppError('CEP inválido', 400);
+    }
+
+    return data;
   }
 }

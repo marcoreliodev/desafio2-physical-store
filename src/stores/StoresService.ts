@@ -2,7 +2,7 @@ import { ViaCepService } from '../services/ViaCepService';
 import { NominatimService } from '../services/NominatimService';
 import { OsrmService } from '../services/OsrmService';
 
-import AppError from '../errors/AppError';
+import AppError from '../utils/errors/AppError';
 
 import { StoresRepository } from './StoresRepository';
 

@@ -1,17 +1,19 @@
 import sqlite3, { Database } from 'sqlite3';
 
+import { logger } from '../utils/logger';
+
 let db: Database | null = null;
 
 export function connectToDatabase(): Promise<Database> {
   return new Promise((resolve, reject) => {
     const database = new sqlite3.Database(`${__dirname}/db.sqlite`, (err) => {
       if (err) {
-        console.error('Erro ao conectar ao banco de dados:', err.message);
+        logger.error('Erro ao conectar ao banco de dados:', err.message);
         reject(err);
         return;
       }
 
-      console.log('Conectado ao banco de dados SQLite');
+      logger.info('Conectado ao banco de dados SQLite');
 
       database.exec(
         `
@@ -31,11 +33,11 @@ export function connectToDatabase(): Promise<Database> {
       `,
         (err) => {
           if (err) {
-            console.error('Erro ao criar tabelas:', err.message);
+            logger.error('Erro ao criar tabelas:', err.message);
             reject(err);
             return;
           }
-          console.log('Tabelas verificadas/criadas com sucesso');
+          logger.info('Tabelas verificadas/criadas com sucesso');
           db = database;
           resolve(database);
         }
@@ -49,7 +51,7 @@ export async function getDatabase(): Promise<Database> {
     try {
       await connectToDatabase();
     } catch (error) {
-      console.error('Falha ao conectar ao banco de dados:', error);
+      logger.error('Falha ao conectar ao banco de dados:', error);
       throw error;
     }
   }
@@ -65,10 +67,10 @@ export function closeDatabase(): Promise<void> {
 
     db.close((err) => {
       if (err) {
-        console.error('Erro ao fechar o banco de dados:', err.message);
+        logger.error('Erro ao fechar o banco de dados:', err.message);
         reject(err);
       } else {
-        console.log('Conexão com o banco de dados fechada.');
+        logger.info('Conexão com o banco de dados fechada.');
         db = null;
         resolve();
       }

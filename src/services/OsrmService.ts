@@ -1,5 +1,7 @@
 import { GeoCoordinates } from './NominatimService';
 
+import { logger } from '../utils/logger';
+
 type OsrmData = {
   routes: {
     distance: number;
@@ -10,39 +12,41 @@ type OsrmData = {
 type RouteResult = {
   distance: string;
   duration: string;
-}
+};
 
 export class OsrmService {
   static async calculateRouteDistance(
     startLocation: GeoCoordinates,
     endLocation: GeoCoordinates
-  ): Promise<RouteResult> {
-    try {
-      const response = await fetch(
-        `${process.env.OSRM_API_URL}/${startLocation.lon},${startLocation.lat};${endLocation.lon},${endLocation.lat}?overview=false&skip_waypoints=true`
+  ): Promise<RouteResult | null> {
+    const response = await fetch(
+      `${process.env.OSRM_API_URL}/${startLocation.lon},${startLocation.lat};${endLocation.lon},${endLocation.lat}?overview=false&skip_waypoints=true`
+    );
+
+    if (!response.ok) {
+      logger.error(
+        `Erro ao comunicar com o serviço de calcular rota: ${response.status} - ${response.statusText}`
       );
-
-      if (!response.ok) {
-        console.error('Erro na requisição: ' + response.statusText);
-        throw new Error('Erro na requisição: ' + response.statusText);
-      }
-
-      const data: OsrmData = await response.json() as OsrmData;
-
-      const route = data.routes[0];
-
-      const convertedUnits = {
-        distance: route.distance / 1000, // kilometers
-        duration: route.duration / 60, // minutes
-      };
-
-      return {
-        distance: `${convertedUnits.distance.toFixed(2)} km`,
-        duration: `${convertedUnits.duration.toFixed(0)} min`,
-      };
-    } catch (error) {
-      console.error('Erro ao obter a rota:', error);
-      throw new Error('Erro ao obter a rota.')
+      return null;
     }
+
+    const data: OsrmData = await response.json() as OsrmData;
+
+    if (!data.routes || data.routes.length === 0) {
+      logger.error('Nenhuma rota encontrada para as coordenadas fornecidas');
+      return null;
+    }
+
+    const route = data.routes[0];
+
+    const convertedUnits = {
+      distance: route.distance / 1000, // kilometers
+      duration: route.duration / 60, // minutes
+    };
+
+    return {
+      distance: `${convertedUnits.distance.toFixed(2)} km`,
+      duration: `${convertedUnits.duration.toFixed(0)} min`,
+    };
   }
 }
