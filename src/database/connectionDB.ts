@@ -21,7 +21,7 @@ export function connectToDatabase(): Promise<Database> {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           store_name TEXT NOT NULL,
           street TEXT NOT NULL,
-          number INTEGER NOT NULL,
+          number TEXT NOT NULL,
           neighborhood TEXT NOT NULL,
           city TEXT NOT NULL,
           state TEXT NOT NULL,

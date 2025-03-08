@@ -5,7 +5,7 @@ import { getDatabase } from '../database/connectionDB';
 export type IStoresDTO = {
   store_name: string;
   street: string;
-  number: number;
+  number: string;
   neighborhood: string;
   city: string;
   state: string;
