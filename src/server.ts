@@ -26,14 +26,19 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
   if (err instanceof AppError) {
     return void res.status(err.statusCode).json({
-      status: 'error',
+      status: err.statusCode,
       message: err.message,
     });
   }
 
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const errorMessage = isDevelopment 
+  ? `Internal Server Error - ${err.message}`
+  : 'Internal Server Error - An unexpected error occurred. Please try again later';
+
   return void res.status(500).json({
-    status: 'error',
-    message: `Internal server error - ${err.message} `,
+    status: 500,
+    message: errorMessage,
   });
 });
 

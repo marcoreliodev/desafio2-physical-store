@@ -1,5 +1,7 @@
 import { GeoCoordinates } from '../services/NominatimService';
 
+import { logger } from '../utils/logger';
+
 import { getDatabase } from '../database/connectionDB';
 
 export type IStoresDTO = {
@@ -25,6 +27,10 @@ export class StoresRepository {
     }
 
     const db = await getDatabase();
+
+    logger.info(
+      `Buscando lojas em um raio de ${maxDistanceInKM}km a partir de [lat: ${originPosition.lat}, lon: ${originPosition.lon}]`
+    );
 
     return new Promise((resolve, reject) => {
       db.all(
@@ -53,8 +59,10 @@ export class StoresRepository {
         ],
         (err, rows) => {
           if (err) {
+            logger.error('Falha ao buscar as lojas próximas no banco:', err.message);
             reject(err);
           } else {
+            logger.info(`Encontradas ${rows.length} lojas no raio especificado`);
             resolve(rows as IStoresDTO[]);
           }
         }
