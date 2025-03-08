@@ -41,7 +41,7 @@ export class StoresService {
     }
 
     const distancePromises = nearbyStores.map(async (store) => {
-      const distance = await OsrmService.calculateRouteDistance(
+      const storeRouteDistance = await OsrmService.calculateRouteDistance(
         userCoordinates,
         {
           lat: store.latitude,
@@ -51,7 +51,7 @@ export class StoresService {
 
       return {
         ...store,
-        distance: distance || `${store.distance.toFixed(2)} Km`,
+        distance: storeRouteDistance || `${store.distance.toFixed(1)} Km`,
       };
     });
 
