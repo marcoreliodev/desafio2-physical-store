@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import 'express-async-errors';
 
+import morgan from 'morgan';
 import { logger } from './utils/logger';
 
 import AppError from './utils/errors/AppError';
@@ -11,6 +12,8 @@ import { connectToDatabase } from './database/connectionDB';
 import { storesRouter } from './routes/stores.routes';
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(express.json());
 
