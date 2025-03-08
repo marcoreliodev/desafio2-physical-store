@@ -10,8 +10,8 @@ type OsrmData = {
 };
 
 type RouteResult = {
-  distance: string;
-  duration: string;
+  road_distance: string;
+  driving_time: string;
 };
 
 export class OsrmService {
@@ -45,8 +45,8 @@ export class OsrmService {
     };
 
     return {
-      distance: `${convertedUnits.distance.toFixed(2)} km`,
-      duration: `${convertedUnits.duration.toFixed(0)} min`,
+      road_distance: `${convertedUnits.distance.toFixed(1)} km`,
+      driving_time: `${convertedUnits.duration.toFixed(0)} min`,
     };
   }
 }

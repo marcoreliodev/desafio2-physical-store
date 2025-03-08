@@ -14,10 +14,10 @@ type NominatimData = {
 
 export class NominatimService {
   static async getCoordinates(location: ViaCepData): Promise<GeoCoordinates> {
-    const { logradouro, localidade, estado } = location;
+    const { localidade, estado } = location;
 
     const response = await fetch(
-      `${process.env.NOMINATIM_API_URL}?street=${logradouro}&city=${localidade}&state=${estado}&country=Brasil&format=json`
+      `${process.env.NOMINATIM_API_URL}?city=${localidade}&state=${estado}&country=Brasil&format=json`
     );
 
     if (!response.ok) {
