@@ -13,7 +13,7 @@ async function runSeed() {
 
     const storeData = [
       [
-        'Loja 1 PORTO ALEGRE',
+        'Loja 3 PORTO ALEGRE',
         'Rua João Abbott',
         '660',
         'Petrópolis',
@@ -24,7 +24,7 @@ async function runSeed() {
         -51.18292,
       ],
       [
-        'Loja 2 CANOAS',
+        'Loja 4 CANOAS',
         'Rua Marechal Rondon',
         '795',
         'Niterói',
@@ -35,7 +35,7 @@ async function runSeed() {
         -51.168016,
       ],
       [
-        'Loja 3 ARROIO DOS RATOS',
+        'Loja 1 ARROIO DOS RATOS',
         'Largo do Mineiro',
         '135',
         'Centro',
@@ -46,7 +46,7 @@ async function runSeed() {
         -51.73068,
       ],
       [
-        'Loja 4 PELOTAS',
+        'Loja 2 PELOTAS',
         'Praça Coronel Pedro Osório',
         '61',
         'Centro',
