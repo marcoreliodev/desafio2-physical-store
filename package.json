@@ -1,15 +1,13 @@
 {
   "name": "desafio2-physical-store",
   "version": "1.0.0",
-  "main": "index.js",
+  "author": "marcoreliodev",
+  "license": "MIT",
+  "description": "API para listar lojas físicas próximas a um CEP fornecido, com base em dados de geolocalização.",
   "scripts": {
     "dev": "nodemon src/server.ts",
     "seed": "ts-node src/database/seed.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
