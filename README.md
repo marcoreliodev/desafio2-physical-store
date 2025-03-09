@@ -54,7 +54,7 @@ cd desafio2-physical-store
 npm install
 ```
 
-4. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
+3. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
 
 ```ini
 PORT=3333 # Porta do servidor (padrão: 3333)
@@ -63,7 +63,7 @@ NOMINATIM_API_URL=https://nominatim.openstreetmap.org/search  # URL da API Nomin
 OSRM_API_URL=http://router.project-osrm.org/route/v1/driving  # URL da API OSRM
 ```
 
-3. Inicie o servidor de desenvolvimento
+4. Inicie o servidor de desenvolvimento
 
 ```bash
 npm run dev
