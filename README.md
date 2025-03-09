@@ -54,6 +54,15 @@ cd desafio2-physical-store
 npm install
 ```
 
+4. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
+
+```ini
+PORT=3333 # Porta do servidor (padrão: 3333)
+VIACEP_API_URL=https://viacep.com.br/ws  # URL da API ViaCEP
+NOMINATIM_API_URL=https://nominatim.openstreetmap.org/search  # URL da API Nominatim
+OSRM_API_URL=http://router.project-osrm.org/route/v1/driving  # URL da API OSRM
+```
+
 3. Inicie o servidor de desenvolvimento
 
 ```bash
