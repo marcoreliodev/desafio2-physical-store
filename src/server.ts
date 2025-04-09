@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { logger } from './utils/logger';
 
 import AppError from './utils/errors/AppError';
+import { HttpStatusCode } from './stores/StoresController';
 
 import express, { Request, Response, NextFunction } from 'express';
 import { connectToDatabase } from './database/connectionDB';
@@ -21,12 +22,17 @@ app.use(storesRouter);
 
 connectToDatabase();
 
+if (!process.env.VIACEP_API_URL) {
+  throw new Error('VIACEP_API_URL is not defined');
+}
+
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(err);
 
   if (err instanceof AppError) {
     return void res.status(err.statusCode).json({
-      status: err.statusCode,
+      status: 'error',
+      code: err.statusCode,
       message: err.message,
     });
   }
@@ -37,7 +43,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   : 'Internal Server Error - An unexpected error occurred. Please try again later';
 
   return void res.status(500).json({
-    status: 500,
+    status: 'error',
+    code: HttpStatusCode.INTERNAL_SERVER_ERROR,
     message: errorMessage,
   });
 });

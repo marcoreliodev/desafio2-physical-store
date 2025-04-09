@@ -4,6 +4,18 @@ import AppError from '../utils/errors/AppError';
 
 import { StoresService } from './StoresService';
 
+export enum HttpStatusCode {
+  OK = 200,
+  CREATED = 201,
+  NO_CONTENT = 204,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  NOT_FOUND = 404,
+  CONFLICT = 409,
+  INTERNAL_SERVER_ERROR = 500
+}
+
 export class StoresController {
   constructor(private storesService: StoresService) {}
 
@@ -21,6 +33,11 @@ export class StoresController {
 
     const stores = await this.storesService.listNearbyStoresByCep(cleanCep);
 
-    return void response.status(200).json(stores);
+    return void response.status(200).json({
+      status: 'success',
+      code: HttpStatusCode.OK,
+      length: stores.length,
+      data: {stores}
+    });
   };
 }
